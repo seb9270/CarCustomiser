@@ -16,6 +16,66 @@ struct ContentView: View {
     @State private var luggage = false
     @State private var remainingFunds: Int = 1000
     
+    var exhaustPackageCheck: Bool {
+        if exhaustPackage == true {
+            return true
+        }
+        else if remainingFunds >= 500 {
+            return true
+        }
+        else {
+            return false
+        }
+        
+    }
+    
+    var tiresPackageCheck: Bool {
+        if tiresPackage == true {
+            return true
+        }
+        else if remainingFunds >= 500 {
+            return true
+        }
+        else {
+            return false
+        }
+        
+    }
+    
+    var nitroPackageCheck: Bool {
+        if nitroPackage == true {
+            return true
+        }
+        else if remainingFunds >= 500 {
+            return true
+        }
+        else {
+            return false
+        }
+        
+    }
+    
+    var luggageCheck: Bool {
+        if luggage == true {
+            return true
+        }
+        else if remainingFunds >= 1000 {
+            return true
+        }
+        else {
+            return false
+        }
+        
+    }
+    
+    func displayReset() {
+        exhaustPackage = false
+        tiresPackage = false
+        nitroPackage = false
+        luggage = false
+        remainingFunds = 1000
+    }
+    
     
     var body: some View {
         let exhaustPackageBinding = Binding<Bool> (
@@ -81,17 +141,23 @@ struct ContentView: View {
                     Button("Next car", action: {
                         if selectedCar < self.starterCars.cars.count - 1 {
                             selectedCar += 1
+                            displayReset()
                         }
                         else {
                             selectedCar = 0
+                            displayReset()
                         }
                     })
                 }
                 Section {
                     Toggle("Exhaust Package (500)", isOn: exhaustPackageBinding)
+                        .disabled(!exhaustPackageCheck)
                     Toggle("Tires Package (500)", isOn: TiresPackageBinding)
+                        .disabled(!tiresPackageCheck)
                     Toggle("Nitro Package (500)", isOn: NitroPackageBinding)
+                        .disabled(!nitroPackageCheck)
                     Toggle("Luggage (1000)", isOn: LuggageBinding)
+                        .disabled(!luggageCheck)
                 }
             }
             Text("Remaining Funds: \(remainingFunds)")
